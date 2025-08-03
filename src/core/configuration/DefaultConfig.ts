@@ -285,9 +285,9 @@ export class DefaultConfig implements Config {
       case Difficulty.Medium:
         return 3;
       case Difficulty.Hard:
-        return 9;
+        return 6;
       case Difficulty.Impossible:
-        return 18;
+        return 12;
     }
   }
 
@@ -816,9 +816,9 @@ export class DefaultConfig implements Config {
         case Difficulty.Medium:
           return 5_000 * (playerInfo?.nation?.strength ?? 1);
         case Difficulty.Hard:
-          return 20_000 * (playerInfo?.nation?.strength ?? 1);
+          return 10_000 * (playerInfo?.nation?.strength ?? 1);
         case Difficulty.Impossible:
-          return 50_000 * (playerInfo?.nation?.strength ?? 1);
+          return 20_000 * (playerInfo?.nation?.strength ?? 1);
       }
     }
     return this.infiniteTroops() ? 1_000_000 : 25_000;
@@ -849,9 +849,9 @@ export class DefaultConfig implements Config {
       case Difficulty.Medium:
         return maxTroops * 1;
       case Difficulty.Hard:
-        return maxTroops * 1.5;
+        return maxTroops * 1.3;
       case Difficulty.Impossible:
-        return maxTroops * 2;
+        return maxTroops * 1.6;
     }
   }
 
@@ -876,10 +876,10 @@ export class DefaultConfig implements Config {
           toAdd *= 1;
           break;
         case Difficulty.Hard:
-          toAdd *= 1.1;
+          toAdd *= 1.05;
           break;
         case Difficulty.Impossible:
-          toAdd *= 1.2;
+          toAdd *= 1.1;
           break;
       }
     }

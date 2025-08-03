@@ -7,6 +7,7 @@ import {
   Attack,
   Cell,
   Game,
+  GameType,
   GameUpdates,
   NameViewData,
   Nation,
@@ -100,16 +101,20 @@ export class GameRunner {
   ) {}
 
   init() {
-    if (this.game.config().isRandomSpawn()) {
-      this.game.addExecution(...this.execManager.spawnPlayers());
+    const config = this.game.config();
+
+    if (config.bots() > 0) {
+      this.game.addExecution(...this.execManager.spawnBots(config.numBots()));
     }
-    if (this.game.config().bots() > 0) {
-      this.game.addExecution(
-        ...this.execManager.spawnBots(this.game.config().numBots()),
-      );
-    }
-    if (this.game.config().spawnNPCs()) {
-      this.game.addExecution(...this.execManager.fakeHumanExecutions());
+    if (config.spawnNPCs()) {
+      const isSinglePlayer =
+        config.gameConfig().gameType === GameType.Singleplayer;
+
+      if (isSinglePlayer) {
+        this.game.addExecution(...this.execManager.smartFakeHumanExecutions());
+      } else {
+        this.game.addExecution(...this.execManager.fakeHumanExecutions());
+      }
     }
     this.game.addExecution(new WinCheckExecution());
   }

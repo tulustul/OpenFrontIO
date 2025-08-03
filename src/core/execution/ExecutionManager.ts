@@ -1,4 +1,4 @@
-import { Execution, Game } from "../game/Game";
+import { Execution, Game, PlayerInfo, PlayerType } from "../game/Game";
 import { PseudoRandom } from "../PseudoRandom";
 import { ClientID, GameID, Intent, Turn } from "../Schemas";
 import { simpleHash } from "../Util";
@@ -22,6 +22,8 @@ import { MoveWarshipExecution } from "./MoveWarshipExecution";
 import { NoOpExecution } from "./NoOpExecution";
 import { QuickChatExecution } from "./QuickChatExecution";
 import { RetreatExecution } from "./RetreatExecution";
+import { SmartFakeHumanExecution } from "./smartFakeHuman";
+import { selectNames } from "./smartFakeHuman/names";
 import { SpawnExecution } from "./SpawnExecution";
 import { TargetPlayerExecution } from "./TargetPlayerExecution";
 import { TransportShipExecution } from "./TransportShipExecution";
@@ -142,5 +144,22 @@ export class Executor {
       execs.push(new FakeHumanExecution(this.gameID, nation));
     }
     return execs;
+  }
+
+  smartFakeHumanExecutions(): Execution[] {
+    const names = selectNames(50, this.random);
+
+    return names.map(
+      (name) =>
+        new SmartFakeHumanExecution(
+          this.gameID,
+          new PlayerInfo(
+            name,
+            PlayerType.FakeHuman,
+            null,
+            this.random.nextID(),
+          ),
+        ),
+    );
   }
 }

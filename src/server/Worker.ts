@@ -219,7 +219,7 @@ export async function startWorker() {
   app.get("/api/game/:id", async (req, res) => {
     const game = gm.game(req.params.id);
     if (game === null) {
-      log.info(`lobby ${req.params.id} not found`);
+      // log.info(`lobby ${req.params.id} not found`);
       return res.status(404).json({ error: "Game not found" });
     }
     res.json(game.gameInfo());
